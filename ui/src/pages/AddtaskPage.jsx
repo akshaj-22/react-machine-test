@@ -9,7 +9,7 @@ const AddtaskPage = () => {
     const [Priority, setPriority] = useState('');
 
 
-    const handleAddDoctor = async (e) => {
+    const handleAddTask = async (e) => {
         e.preventDefault();
 
         try {
@@ -33,107 +33,104 @@ const AddtaskPage = () => {
                 setTaskId('');
                 setTitle('');
                 setDescription('');
-                
+                setStatus('');
+                setPriority('');
             } else {
-                alert('Failed to add doctor');
+                alert('Failed to add task');
             }
         } catch (error) {
-            console.error('Error adding doctor:', error);
-            alert('Error adding doctor');
+            console.error('Error adding task:', error);
+            alert('Error adding task');
         }
     };
 
-    const handleDateChange = (index, date) => {
-        const newDates = [...availableDates];
-        newDates[index].date = date;
-        setAvailableDates(newDates);
-    };
+    // const handleDateChange = (index, date) => {
+    //     const newDates = [...availableDates];
+    //     newDates[index].date = date;
+    //     setAvailableDates(newDates);
+    // };
 
-    const handleTimeChange = (dateIndex, timeIndex, field, value) => {
-        const newDates = [...availableDates];
-        newDates[dateIndex].times[timeIndex][field] = value;
-        setAvailableDates(newDates);
-    };
+    // const handleTimeChange = (dateIndex, timeIndex, field, value) => {
+    //     const newDates = [...availableDates];
+    //     newDates[dateIndex].times[timeIndex][field] = value;
+    //     setAvailableDates(newDates);
+    // };
 
-    const addDate = () => {
-        setAvailableDates([...availableDates, { date: '', times: [{ startTime: '', endTime: '' }] }]);
-    };
+    // const addDate = () => {
+    //     setAvailableDates([...availableDates, { date: '', times: [{ startTime: '', endTime: '' }] }]);
+    // };
 
-    const removeDate = (index) => {
-        setAvailableDates(availableDates.filter((_, i) => i !== index));
-    };
+    // const removeDate = (index) => {
+    //     setAvailableDates(availableDates.filter((_, i) => i !== index));
+    // };
 
-    const addTimeSlot = (dateIndex) => {
-        const newDates = [...availableDates];
-        newDates[dateIndex].times.push({ startTime: '', endTime: '' });
-        setAvailableDates(newDates);
-    };
+    // const addTimeSlot = (dateIndex) => {
+    //     const newDates = [...availableDates];
+    //     newDates[dateIndex].times.push({ startTime: '', endTime: '' });
+    //     setAvailableDates(newDates);
+    // };
 
-    const removeTimeSlot = (dateIndex, timeIndex) => {
-        const newDates = [...availableDates];
-        newDates[dateIndex].times = newDates[dateIndex].times.filter((_, i) => i !== timeIndex);
-        setAvailableDates(newDates);
-    };
+    // const removeTimeSlot = (dateIndex, timeIndex) => {
+    //     const newDates = [...availableDates];
+    //     newDates[dateIndex].times = newDates[dateIndex].times.filter((_, i) => i !== timeIndex);
+    //     setAvailableDates(newDates);
+    // };
 
     return (
         <div className="bg-gray-100 flex flex-col min-h-screen">
             <div className="flex-grow container mx-auto p-6">
-                <h2 className="text-3xl font-bold text-blue-600 mb-4">Add New Doctor</h2>
-                <form onSubmit={handleAddDoctor} className="bg-white shadow-xl shadow-blue-500 rounded-lg p-6">
+                <h2 className="text-3xl font-bold text-blue-600 mb-4">Add New Task</h2>
+                <form onSubmit={handleAddTask} className="bg-white shadow-xl shadow-blue-500 rounded-lg p-6">
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Doctor Name</label>
+                        <label className="block text-sm font-medium text-gray-700">Task Id</label>
                         <input
                             type="text"
-                            value={doctorName}
-                            onChange={(e) => setDoctorName(e.target.value)}
+                            value={TaskId}
+                            onChange={(e) => setTaskId(e.target.value)}
                             className="mt-1 p-2 w-full border rounded-md"
                             required
                         />
                     </div>
                     <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700">Specialization</label>
+                        <label className="block text-sm font-medium text-gray-700">Title</label>
                         <input
                             type="text"
-                            value={specialization}
-                            onChange={(e) => setSpecialization(e.target.value)}
+                            value={Title}
+                            onChange={(e) => setTitle(e.target.value)}
                             className="mt-1 p-2 w-full border rounded-md"
                             required
                         />
                     </div>
-                    {availableDates.map((dateGroup, dateIndex) => (
-                        <div key={dateIndex} className="mb-4">
-                            <div className="flex justify-between items-center mb-2">
-                                <input
-                                    type="date"
-                                    value={dateGroup.date}
-                                    onChange={(e) => handleDateChange(dateIndex, e.target.value)}
-                                    className="p-2 border rounded-md"
-                                    required
-                                />
-                                <button type="button" className="text-red-500 font-bold px-2 py-1 shadow shadow-gray-800 rounded-lg" onClick={() => removeDate(dateIndex)}>Remove Date</button>
-                            </div>
-                            {dateGroup.times.map((timeSlot, timeIndex) => (
-                                <div key={timeIndex} className="flex items-center space-x-2 mb-2">
-                                    <input
-                                        type="time"
-                                        value={timeSlot.startTime}
-                                        onChange={(e) => handleTimeChange(dateIndex, timeIndex, 'startTime', e.target.value)}
-                                        className="p-2 border rounded-md"
-                                        required
-                                    />
-                                    <input
-                                        type="time"
-                                        value={timeSlot.endTime}
-                                        onChange={(e) => handleTimeChange(dateIndex, timeIndex, 'endTime', e.target.value)}
-                                        className="p-2 border rounded-md"
-                                        required
-                                    />
-                                    <button type="button" className="text-red-500" onClick={() => removeTimeSlot(dateIndex, timeIndex)}>&times;</button>
-                                </div>
-                            ))}
-                            <button type="button" className="text-blue-700 font-bold px-2 py-1 shadow shadow-gray-800 rounded-lg" onClick={() => addTimeSlot(dateIndex)}>Add Time Slot</button>
-                        </div>
-                    ))}
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Description</label>
+                        <input
+                            type="text"
+                            value={Description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            className="mt-1 p-2 w-full border rounded-md"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Status</label>
+                        <input
+                            type="text"
+                            value={Status}
+                            onChange={(e) => setStatus(e.target.value)}
+                            className="mt-1 p-2 w-full border rounded-md"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label className="block text-sm font-medium text-gray-700">Priority</label>
+                        <input
+                            type="text"
+                            value={Priority}
+                            onChange={(e) => setPriority(e.target.value)}
+                            className="mt-1 p-2 w-full border rounded-md"
+                            required
+                        />
+                    </div>
                     <div className='flex gap-4 p-2'>
                         <button type="button" className="bg-blue-500 text-white px-6 py-2 rounded-md mt-4" onClick={addDate}>Add Another Date</button>
                         <button type="submit" className="bg-green-500 text-white px-6 py-2 rounded-md mt-4">Add Doctor</button>
@@ -142,7 +139,7 @@ const AddtaskPage = () => {
             </div>
 
             <footer className="bg-blue-600 text-white p-4 text-center">
-                © 2024 Medical Consultation. All rights reserved.
+                © 2024 Task. All rights reserved.
             </footer>
         </div>
     );
